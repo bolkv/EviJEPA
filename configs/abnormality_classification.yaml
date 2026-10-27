@@ -1,0 +1,61 @@
+data:
+  train_dir: /workspace/data384z128/train
+  labels: /workspace/datasets/datasets/CT-RATE/dataset/multi_abnormality_labels/train_predicted_labels.csv
+  valid_dir: /workspace/data384z128/valid
+  valid_labels: /workspace/datasets/datasets/CT-RATE/dataset/multi_abnormality_labels/valid_predicted_labels.csv
+  batch_size: 2
+  gradient_accumulation_steps: 4
+  num_workers: 16
+  prefetch_factor: 2
+  augment:
+    flip_p: 0.5
+    affine_p: 0.2
+    rot_deg: 15
+    zoom_range:
+    - 0.9
+    - 1.1
+    translate: 8
+    blur_p: 0.0
+    lowres_p: 0.0
+    noise_p: 0.15
+    noise_std: 0.02
+    brightness_p: 0.15
+    brightness:
+    - 0.9
+    - 1.1
+    contrast_p: 0.15
+    contrast:
+    - 0.9
+    - 1.1
+    gamma_p: 0.15
+    gamma:
+    - 0.85
+    - 1.2
+    gamma_invert: false
+model:
+  vision_arch: vjepa21_large
+  vjepa21_ckpt: /workspace/datasets/vjepa21/vjepa2_1_vitl_dist_vitG_384.pt
+  vis_dim: 1024
+  vision_lora: true
+  lora_r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  gradient_checkpointing: false
+  z_unshuffle: 2
+  patch_embed_full: true
+  backbone_ckpt: /workspace/train/checkpoints_lora_perq_3win_z128_pefull/epoch_1.pt
+  freeze_vision: false
+  head_type: attn
+  cls_heads: 8
+  cls_dropout: 0.1
+  pos_weight_cap: 10.0
+train:
+  bf16: true
+  epochs: 25
+  loss: bce
+  lr_head: 0.001
+  lr_vision: 1.0e-05
+  weight_decay: 0.05
+  warmup_steps: 200
+  grad_clip: 1.0
+  ckpt_dir: /workspace/train/checkpoints_cls_z128_bceaug

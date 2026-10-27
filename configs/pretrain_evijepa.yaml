@@ -1,0 +1,64 @@
+data:
+  train_dir: /workspace/data384z128/train
+  desc_info: /workspace/datasets/desc_info.json
+  conc_info: /workspace/datasets/conc_info.json
+  organs:
+  - lung
+  - heart
+  - esophagus
+  - aorta
+  num_frames: 128
+  max_txt_len: 384
+  precomputed: false
+  token_dir: /workspace/data/tokens21L/train
+  batch_size: 16
+  num_workers: 8
+model:
+  vjepa_name: facebook/vjepa2-vitl-fpc64-256
+  vision_arch: vjepa21_large
+  vjepa21_ckpt: /workspace/datasets/vjepa21/vjepa2_1_vitl_dist_vitG_384.pt
+  vis_dim: 1024
+  llama_name: meta-llama/Llama-3.2-1B
+  gemma_name: google/embeddinggemma-300m
+  n_keep_layers: 8
+  shared_dim: 512
+  max_organ_tokens: 2560
+  gradient_checkpointing: true
+  vision_lora: true
+  lora_r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  use_queue: false
+  use_gather: true
+  global_pool: query
+  per_organ_query: true
+  text_pool: mean
+  moe:
+    use_moe: true
+    n_experts: 8
+    soft: true
+    tau: 0.5
+    capacity: 32
+    capacity_text: 16
+    evidence_dim: 512
+    lambda_ev: 1.0
+    lambda_rd: 0.02
+    lambda_ed: 0.02
+    sinkhorn_iters: 5
+    sinkhorn_eps: 0.05
+  z_unshuffle: 2
+  patch_embed_full: true
+train:
+  epochs: 10
+  lr: 0.0001
+  y_lr_mult: 0.1
+  vjepa_lr_mult: 0.1
+  weight_decay: 0.01
+  warmup_steps: 500
+  temperature: 0.07
+  grad_clip: 1.0
+  device: cuda:2
+  bf16: true
+  log_every: 20
+  save_every_epochs: 1
+  ckpt_dir: /workspace/train/checkpoints_lora_perq_3win_z128_pefull

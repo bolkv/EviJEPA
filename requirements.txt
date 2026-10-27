@@ -1,0 +1,14 @@
+torch>=2.4
+torchvision
+transformers==4.46.2
+peft==0.13.2
+timm==1.0.11
+einops==0.8.0
+accelerate>=1.0
+nibabel==5.2.1
+numpy==1.26.4
+pandas
+scikit-learn
+pyyaml
+tqdm
+safetensors

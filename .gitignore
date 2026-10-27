@@ -1,0 +1,51 @@
+# ──────────────────────────────────────────────────────────────
+# Model weights / checkpoints are NOT distributed in this repo.
+# Keep it that way: never commit binary model artifacts.
+# ──────────────────────────────────────────────────────────────
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+*.onnx
+*.h5
+*.msgpack
+weights/
+weights_raw/
+weights*.zip
+checkpoints*/
+models/*.pt
+
+# Data / preprocessed volumes (CT-RATE must be obtained from the official source)
+*.nii
+*.nii.gz
+*.mha
+*.npz
+*.npy
+data/
+dataset*/
+
+# Archives / container exports
+*.zip
+*.tar
+*.tar.gz
+submission*.tar.gz
+
+# Outputs
+outputs/
+output/
+predictions.json
+results.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
